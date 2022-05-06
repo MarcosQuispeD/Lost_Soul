@@ -11,6 +11,7 @@ public class FireTrap : MonoBehaviour
     public int damage;
     public int liveTrap;
     private bool isInmune;
+    public GameObject trpaFire;
 
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -18,7 +19,7 @@ public class FireTrap : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !isInmune)
         {
             AudioController.instance.PlayAudio(AudioController.instance.effectTrap);
-            PanelSystem.instance.OpenPanel(1);
+            //PanelSystem.instance.OpenPanel(1);
             LifeSystem.instance.TakeDamage(damage);
             StartCoroutine(Inmune(collision));
         }
@@ -47,6 +48,8 @@ public class FireTrap : MonoBehaviour
     {
         if (liveTrap <= 0)
         {
+            trpaFire.GetComponent<DialogController>().ClosePanel();
+            Destroy(trpaFire);
             PlayerWeapon.instance.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
             Destroy(gameObject);
         }

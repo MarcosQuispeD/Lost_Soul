@@ -7,7 +7,7 @@ public class GameManagerController : MonoBehaviour
 {
     public static GameManagerController instance;
     public List<int> keys;
-
+    public float bounds;
 
     void Awake()
     {
@@ -23,6 +23,7 @@ public class GameManagerController : MonoBehaviour
         keys = new List<int>();
 
         AudioController.instance.ConvertAudio(AudioController.instance.backgroundGame);
+        GetBounds();
     }
 
     // Update is called once per frame
@@ -40,7 +41,6 @@ public class GameManagerController : MonoBehaviour
     public void CollectionKeys(int key)
     {
         keys.Add(key);
-        PanelSystem.instance.OpenPanel(0);
 
     }
 
@@ -50,9 +50,47 @@ public class GameManagerController : MonoBehaviour
         {
             if (keys[i] == idDoor)
             {
+
                 return true;
             }
         }
         return false;
+    }
+
+    public void SetData()
+    {
+        if (DataManager.instance != null)
+        {
+            DataManager.instance.SetSaveKeys(keys.Count);
+        }
+
+    }
+
+    public void SetDataBounds()
+    {
+        if (DataManager.instance != null)
+        {
+            DataManager.instance.SetSaveBound(bounds);
+        }
+
+    }
+
+
+    private void GetBounds()
+    {
+        if (DataManager.instance == null)
+        {
+            return;
+        }
+        if (!DataManager.instance.isInnitGame)
+        {
+            bounds = PlayerPrefs.GetFloat("bounds", bounds);
+        }
+
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

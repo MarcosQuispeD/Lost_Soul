@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7739129833592327329}
   - component: {fileID: 7759187388105361862}
   - component: {fileID: 2403049297489724699}
+  - component: {fileID: 1478496598749667415}
   m_Layer: 0
   m_Name: Llave_Blue
   m_TagString: Untagged
@@ -133,3 +134,19 @@ CircleCollider2D:
   m_Offset: {x: -0.007123705, y: 0}
   serializedVersion: 2
   m_Radius: 0.20042966
+--- !u!114 &1478496598749667415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2759615969000483845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa246bfc3a1ac564db5eec7d2f251f03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialegLines:
+  - Encontraste una llave, busca una puerta del mismo color para utilizarla.
+  dialogPanel: {fileID: 0}
+  dialogtext: {fileID: 0}

@@ -7,17 +7,17 @@ public class CofreController : MonoBehaviour
 {
     public Sprite itemBonus;
     public Transform shootBonus;
+    public int index;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             AudioController.instance.PlayAudio(AudioController.instance.effectCofre);
-            PanelSystem.instance.OpenPanel(2);
             ShootPlayer.instance.bulletsPrefab.Add(shootBonus);
-            PlayerWeapon.instance.bulletTransformPosition[1].GetComponent<SpriteRenderer>().sprite = itemBonus;
-            PlayerWeapon.instance.bulletTransformPosition[1].gameObject.GetComponentInChildren<Light2D>().enabled = true;
-            Destroy(gameObject);
+            PlayerWeapon.instance.bulletTransformPosition[index].GetComponent<SpriteRenderer>().sprite = itemBonus;
+            PlayerWeapon.instance.bulletTransformPosition[index].gameObject.GetComponentInChildren<Light2D>().enabled = true;
+            GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 

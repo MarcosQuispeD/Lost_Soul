@@ -382,7 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4580310849375884441}
   - component: {fileID: 4580310849375884440}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DetectionCollision
   m_TagString: EnemyDistance
   m_Icon: {fileID: 0}

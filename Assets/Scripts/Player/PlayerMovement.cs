@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    public static PlayerMovement instance;
     Rigidbody2D rb;
     Vector2 movement;
     public float speed;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     void Start()
     {
@@ -16,11 +26,20 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (!GetComponent<LifeSystem>().dead)
+        {
+            movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+
+       
     }
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position+movement*speed*Time.fixedDeltaTime);
+        if (!GetComponent<LifeSystem>().dead)
+        {
+            rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
+        }
+      
     }
 }

@@ -20,15 +20,21 @@ public class PlayerDamage : MonoBehaviour
             LifeSystem.instance.TakeDamage(1);
             StartCoroutine(Inmune());
         }
-    }
 
+        if (collision.gameObject.CompareTag("TrapDamageLarge") && !isInmune)
+        {
+
+            LifeSystem.instance.TakeDamage(1);
+            StartCoroutine(Inmune());
+        }
+    }
 
     IEnumerator Inmune()
     {
         isInmune = true;
         AudioController.instance.PlayAudio(AudioController.instance.effectTrap);
         GetComponentInParent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.2f);
         GetComponentInParent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         isInmune = false;
     }

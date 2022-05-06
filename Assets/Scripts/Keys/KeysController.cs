@@ -12,7 +12,7 @@ public class KeysController : MonoBehaviour
         {
             AudioController.instance.PlayAudio(AudioController.instance.effectCofre);
             GameManagerController.instance.CollectionKeys(key);
-            Destroy(gameObject);
+            GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 }

@@ -19,6 +19,22 @@ public class MenuController : MonoBehaviour
 
     public void StartGame()
     {
+        if (DataManager.instance != null)
+        {
+            DataManager.instance.isInnitGame = true;
+        }
+        ChangeScene(2);
+    }
+
+    public void ReturnCheckGame()
+    {
+        if (DataManager.instance != null)
+        {
+            if (DataManager.instance.saveGame)
+            {
+                DataManager.instance.isInnitGame = false;
+            }
+        }
         ChangeScene(2);
     }
 
@@ -30,6 +46,11 @@ public class MenuController : MonoBehaviour
     public void OptionsController()
     {
         ChangeScene(1);
+    }
+
+    public void Options()
+    {
+        ChangeScene(6);
     }
 
     public void CreditsController()

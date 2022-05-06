@@ -17,15 +17,39 @@ public class CamaraManegarController : MonoBehaviour
             instance = this;
         }
         confiner = GetComponent<CinemachineConfiner>();
+        GetCamera();
+    }
+
+    public void SetData()
+    {
+        if (DataManager.instance != null)
+        {
+            DataManager.instance.SetSaveCamera(2);
+        }
+
     }
 
     public void SetBoundConfinder(int id)
     {
-        confiner.m_BoundingShape2D = collider[id].GetComponent<PolygonCollider2D>();
-        if (id == 1)
+        if (id <= 1)
         {
-            Time.timeScale = 0;
-            GameManagerController.instance.ChangeScene(3);
+            confiner.m_BoundingShape2D = collider[id].GetComponent<PolygonCollider2D>();
+            SetData();
         }
+       
+    }
+
+    public void GetCamera()
+    {
+        if (DataManager.instance == null)
+        {
+            return;
+        }
+        if (!DataManager.instance.isInnitGame)
+        {
+            confiner.m_BoundingShape2D = collider[1].GetComponent<PolygonCollider2D>();
+        }
+
+
     }
 }

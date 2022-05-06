@@ -19,7 +19,7 @@ public class DoorsController : MonoBehaviour
             }
             else
             {
-                PanelSystem.instance.OpenPanel(3);
+                GetComponent<AudioSource>().Play();
             }
         }
 
@@ -29,14 +29,15 @@ public class DoorsController : MonoBehaviour
     {
         if (GameManagerController.instance.OpenDoorForKey(idDoor))
         {
+            if (idDoor == 3)
+            {
+                GameManagerController.instance.ChangeScene(3);
+                return;
+            }
             CamaraManegarController.instance.SetBoundConfinder(idDoor);
             isOpenDoor = true;
             gameObject.SetActive(false);
             doorClose.SetActive(true);
-        }
-        else
-        {
-            PanelSystem.instance.OpenPanel(3);
         }
     }
 

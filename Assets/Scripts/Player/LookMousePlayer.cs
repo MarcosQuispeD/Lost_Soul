@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class LookMousePlayer : MonoBehaviour
 {
+    public static LookMousePlayer instance;
     Animator anim;
     public new Camera camera;
     public Transform positionParent;
     Vector2 mousePosition;
+    public bool mira;
+
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -23,9 +34,22 @@ public class LookMousePlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = mousePosition;
-        ChangeAnimations();
+        if (!GetComponentInParent<LifeSystem>().dead)
+        {
+            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = mousePosition;
+
+            ChangeAnimations();
+        }
+        else
+        {
+            anim.SetBool("IsUp", false);
+            anim.SetBool("IsDown", false);
+            anim.SetBool("IsRigth", false);
+            anim.SetBool("IsLeft", false);
+        }
+       
+
     }
 
     void ChangeAnimations()
@@ -58,6 +82,18 @@ public class LookMousePlayer : MonoBehaviour
             anim.SetBool("IsLeft", true);
             anim.SetBool("IsUp", false);
             anim.SetBool("IsDown", false);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("TrapDamageLarge") || collision.gameObject.CompareTag("TrapFire"))
+        {
+            mira = true;
+        }
+        else
+        {
+            mira = false;
         }
     }
 }

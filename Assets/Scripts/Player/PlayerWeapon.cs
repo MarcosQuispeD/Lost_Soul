@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.LWRP;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -29,26 +30,49 @@ public class PlayerWeapon : MonoBehaviour
     void Start()
     {
         indexSelect = 0;
+        GetWeapon();
+        GetPosition();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        ChangeBullet();
+       
         Direction();
         Shooting();
+    }
+    private void FixedUpdate()
+    {
+        ChangeBullet();
     }
 
     void ChangeBullet()
     {
 
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && ShootPlayer.instance.bulletsPrefab.Count > 1)
         {
-            indexSelect = 0; 
+            if (indexSelect == 0)
+            {
+                indexSelect = ShootPlayer.instance.bulletsPrefab.Count-1;
+            }
+            else
+            {
+                if (indexSelect <= ShootPlayer.instance.bulletsPrefab.Count)
+                {
+                    indexSelect--;
+                }
+            }
+
+          
         }
-        if (Input.GetKey(KeyCode.E) && ShootPlayer.instance.bulletsPrefab.Count > 1)
+        if (Input.GetKeyDown(KeyCode.E) && ShootPlayer.instance.bulletsPrefab.Count > 1)
         {
-            indexSelect = 1;
+            indexSelect++;
+            if (indexSelect >= ShootPlayer.instance.bulletsPrefab.Count)
+            {
+                indexSelect = 0;
+            }
         }
 
 
@@ -70,7 +94,7 @@ public class PlayerWeapon : MonoBehaviour
 
     void Shooting()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !PauseController.instance.isInPause)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -79,6 +103,47 @@ public class PlayerWeapon : MonoBehaviour
                 bullPosition = bulletTransformPosition[indexSelect].position,
                 shootPosition = mousePosition
             });
+        }
+    }
+
+
+    public void SetData()
+    {
+        if (DataManager.instance != null)
+        {
+            DataManager.instance.SetSaveShoot(bulletTransformPosition.Count);
+            DataManager.instance.SetSavePosition();
+        }
+      
+    }
+
+
+    public void GetWeapon()
+    {
+        if (DataManager.instance == null)
+        {
+            return;
+        }
+        if (!DataManager.instance.isInnitGame)
+        {
+            var position = FindObjectOfType<SaveGame>().gameObject;
+            GetComponentsInParent<Transform>()[0].position= new Vector3(position.transform.position.x, position.transform.position.y, 0);
+        }
+       
+        
+    }
+
+    public void GetPosition()
+    {
+        if (DataManager.instance == null)
+        {
+            return;
+        }
+        if (!DataManager.instance.isInnitGame)
+        {
+            ShootPlayer.instance.bulletsPrefab.Add(DataManager.instance.shootBonus);
+            bulletTransformPosition[PlayerPrefs.GetInt("countShoot") - ShootPlayer.instance.bulletsPrefab.Count].GetComponent<SpriteRenderer>().sprite = DataManager.instance.itemBonus;
+            bulletTransformPosition[PlayerPrefs.GetInt("countShoot") - ShootPlayer.instance.bulletsPrefab.Count].gameObject.GetComponentInChildren<Light2D>().enabled = true;
         }
     }
 }

@@ -45,15 +45,37 @@ public class BulletController : MonoBehaviour
             DestoyComponent(gameObject);
         }
 
+        if (collision.gameObject.CompareTag("CollisionMira"))
+        {
+
+            InstateParticle();
+            if (PlayerWeapon.instance.indexSelect == 2 && !LookMousePlayer.instance.mira)
+            {
+                TeleportShootController.instance.Teleport(gameObject);
+            }
+            DestoyComponent(gameObject);
+        }
+
         if (collision.gameObject.CompareTag("TrapDamage"))
         {
             InstateParticle();
             DestoyComponent(gameObject);
         }
 
+        if (collision.gameObject.CompareTag("TrapDamageLarge"))
+        {
+            if (PlayerWeapon.instance.indexSelect != 2)
+            {
+                InstateParticle();
+                DestoyComponent(gameObject);
+            }
+           
+        }
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
             InstateParticle();
+            GameManagerController.instance.bounds = GameManagerController.instance.bounds +1f;
             DestoyComponent(collision.attachedRigidbody.GetComponent<Enemy>().gameObject);
             DestoyComponent(gameObject);
         }
